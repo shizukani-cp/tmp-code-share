@@ -7,3 +7,7 @@ a {
     color: #ffffff;
     word-break:keep-all;
 }
+
+ol {
+    padding-left:25px;
+}
