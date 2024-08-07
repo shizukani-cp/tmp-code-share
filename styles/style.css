@@ -2,3 +2,8 @@ a {
     color: #ffffff;
     text-decoration:none;
 }
+
+.code {
+    color: #ffffff;
+    word-break:keep-all;
+}
