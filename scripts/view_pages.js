@@ -3,6 +3,10 @@ const contents = [
     {
         title:"自己紹介",
         date:"20240803"
+    },
+    {
+        title:"githubにpushしようとしたらできなかった話",
+        date:"20240807"
     }
 ];
 

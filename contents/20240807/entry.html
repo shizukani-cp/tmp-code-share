@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../styles/basestyle.css">
+        <link rel="stylesheet" href="../../styles/style.css">
+        <script src="../../scripts/define_multiline-code_tag.js"></script>
+        <title>githubにpushしようとしたらできなかった話</title>
+    </head>
+    <body>
+        <header>
+            <a href="../index.html">
+                <h1>静カニのブログ</h1>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="../../index.html">ホーム</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div id="main">
+            <h1>githubにpushしようとしたらできなかった話</h1>
+            <p>こんにちは、静カニです。</p>
+            <p>この間、gensimのWord2Vecを使ってプログラムを作っていた時に、モデルも追跡対象に入れていました。</p>
+            <p>それを、Githubにプッシュしようとしたところ、VS Codeでは、「プッシュできませんでした。git pullで仕様を統合してからプッシュしてください。」的なメッセージが出てきました。</p>
+            <p>単純にプッシュができなかっただけだと思い込んでいたので、調べたときに、git reset --hard origin/masterが出てきて、せっかくの変更がおじゃんになったときは結構悲しかったです…。</p>
+            <p>そこで、git push -fと直接コマンドを実行したエラーメッセージを翻訳したところ、「ファイルがでかすぎる」と言っていたことが分かりました。</p>
+            <p>エラーメッセージにはgit-lfsというもののURLがあったため、使ってみると、モデルのサイズが小さくなったため、それでプッシュできる…かと思いました。</p>
+            <p>ですが、一度コミットしたあと、小さくしてものをコミットしたため、前のコミットをプッシュしようとして、失敗してしまいます。</p>
+            <p>それでは、どうすればよいかというと、先のgit reset ~ のうち、--hardオプションを--softオプションに変えてからコミットしなおすことです。</p>
+            <p>--softオプションは現在のカレントディレクトリの状態は変えないので、そのままコミットすればよいということです。</p>
+            <p>最後に、必要なコマンドをまとめると、以下のようになります。</p>
+            <br>
+            <div class="code" data-programming_lang="shell">
+                git reset --soft origin/[ブランチ]<br>
+                git lfs track "*.[モデルの拡張子]"<br>
+                git add .<br>
+                git commit -m "メッセージ"
+            </div>
+            <br>
+            <p>そもそもgithubにバイナリのファイルはアップロードするべきではないという考え方の方もいると思いますので、これはごく限られた人にしか役に立たないかもしれませんが、自分の備忘録的にこの記事を書きました。</p>
+        </div>
+    </body>
+</html>
