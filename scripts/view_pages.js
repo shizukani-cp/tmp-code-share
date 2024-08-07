@@ -12,7 +12,7 @@ const contents = [
 
 function formatDate(date) {
     const year = parseInt(date.substring(0, 4), 10);
-    const month = parseInt(date.substring(4, 6), 10) - 1;
+    const month = parseInt(date.substring(4, 6), 10);
     const day = parseInt(date.substring(6, 8), 10);
     const paddedMonth = month.toString().padStart(2, '0');
     const paddedDay = day.toString().padStart(2, '0');
