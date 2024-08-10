@@ -11,3 +11,8 @@ a.title {
 ol {
     padding-left:25px;
 }
+
+img.title-image {
+    width: auto;
+    height: 100px;
+}
