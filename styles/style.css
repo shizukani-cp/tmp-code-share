@@ -11,3 +11,16 @@ img.title-image {
     width: 200px;
     height: auto;
 }
+
+main {
+    width: 70%;
+    padding: 10px;
+    float: left;
+}
+
+aside#sidebar {
+    width: 20%;
+    float: right;
+    margin: 0;
+    padding: 0;
+}
