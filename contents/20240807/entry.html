@@ -3,7 +3,15 @@
     <head>
         <link rel="stylesheet" href="../../styles/basestyle.css">
         <link rel="stylesheet" href="../../styles/style.css">
-        <title>githubにpushしようとしたらできなかった話</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="Word2vecのモデルをgithubにプッシュしようとしてできなかった時の解決法">
+        <meta property="og:title" content="githubにpushしようとしたらできなかった話 | 静カニのブログ">
+        <meta property="og:site_name" content="静カニのブログ">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://shizukani-cp.github.io/blog/">
+        <meta property="og:image" content="https://shizukani-cp.github.io/blog/shizukani_title.png">
+        <title>静カニのブログ</title>
     </head>
     <body>
         <header>
@@ -16,39 +24,34 @@
                 </ul>
             </nav>
         </header>
-        <div id="main">
+        <main>
             <h1>githubにpushしようとしたらできなかった話</h1>
-            <p>こんにちは、静カニです。</p>
-            <p>この間、gensimのWord2Vecを使ってプログラムを作っていた時に、モデルも追跡対象に入れていました。</p>
-            <p>それを、Githubにプッシュしようとしたところ、VS Codeでは、「プッシュできませんでした。git pullで仕様を統合してからプッシュしてください。」的なメッセージが出てきました。</p>
-            <p>単純にプッシュができなかっただけだと思い込んでいたので、調べたときに、git reset --hard origin/masterが出てきて、せっかくの変更がおじゃんになったときは結構悲しかったです…。</p>
-            <p>そこで、git push -fと直接コマンドを実行したエラーメッセージを翻訳したところ、「ファイルがでかすぎる」と言っていたことが分かりました。</p>
-            <p>エラーメッセージにはgit-lfsというもののURLがあったため、使ってみると、モデルのサイズが小さくなったため、それでプッシュできる…かと思いました。</p>
-            <p>ですが、一度コミットしたあと、小さくしてものをコミットしたため、前のコミットをプッシュしようとして、失敗してしまいます。</p>
-            <p>それでは、どうすればよいかというと、先のgit reset ~ のうち、--hardオプションを--softオプションに変えてからコミットしなおすことです。</p>
-            <p>--softオプションは現在のカレントディレクトリの状態は変えないので、そのままコミットすればよいということです。</p>
-            <p>最後に、必要なコマンドをまとめると、以下のようになります。</p>
-            <br>
-            <div class="code" data-programming_lang="shell">
-                git reset --soft origin/[ブランチ]<br>
-                git lfs track "*.[モデルの拡張子]"<br>
-                git add .<br>
-                git commit -m "メッセージ"
-            </div>
-            <br>
-            <p>そもそもgithubにバイナリのファイルはアップロードするべきではないという考え方の方もいると思いますので、これはごく限られた人にしか役に立たないかもしれませんが、自分の備忘録的にこの記事を書きました。</p>
-            <br>
-            <br>
-            <p>2024/08/08追記</p>
-            <p>git-lfsのインストール方法(自分が使っているWindows向けなので他のOSの場合は自分で調べてください)</p>
-            <ol>
-                <li><a href="https://git-lfs.com/">git-lfsのホームページ</a>を開く</li>
-                <li>画面にあるインストーラをダウンロード・実行する</li>
-                <li>ターミナルでgit lfs installを実行する</li>
-            </ol>
-        </div>
-        <br>
-        <br>
-        <br>
+<p>こんにちは、静カニです。<br />
+この間、gensimのWord2Vecを使ってプログラムを作っていた時に、モデルも追跡対象に入れていました。<br />
+それを、Githubにプッシュしようとしたところ、VS Codeでは、「プッシュできませんでした。git pullで仕様を統合してからプッシュしてください。」的なメッセージが出てきました。<br />
+単純にプッシュができなかっただけだと思い込んでいたので、調べたときに、git reset --hard origin/masterが出てきて、せっかくの変更がおじゃんになったときは結構悲しかったです…。<br />
+そこで、git push -fと直接コマンドを実行したエラーメッセージを翻訳したところ、「ファイルがでかすぎる」と言っていたことが分かりました。<br />
+エラーメッセージにはgit-lfsというもののURLがあったため、使ってみると、モデルのサイズが小さくなったため、それでプッシュできる…かと思いました。<br />
+ですが、一度コミットしたあと、小さくしてものをコミットしたため、前のコミットをプッシュしようとして、失敗してしまいます。<br />
+それでは、どうすればよいかというと、先のgit reset ~ のうち、--hardオプションを--softオプションに変えてからコミットしなおすことです。<br />
+--softオプションは現在のカレントディレクトリの状態は変えないので、そのままコミットすればよいということです。<br />
+最後に、必要なコマンドをまとめると、以下のようになります。</p>
+<pre><code class="language-shell">git reset --soft origin/[ブランチ]
+git lfs track &quot;[モデルのファイル名]&quot;
+git add .
+git commit -m &quot;メッセージ&quot;
+</code></pre>
+<p>そもそもgithubにバイナリのファイルはアップロードするべきではないという考え方の方もいると思いますので、これはごく限られた人にしか役に立たないかもしれませんが、自分の備忘録的にこの記事を書きました。</p>
+<h2>2024/08/08追記</h2>
+<p>git-lfsのインストール方法(自分が使っているWindows向けなので他のOSの場合は自分で調べてください)</p>
+<ol>
+<li><a href="https://git-lfs.com/">git-lfsのホームページ</a>を開く</li>
+<li>画面にあるインストーラをダウンロード・実行する</li>
+<li>ターミナルでgit lfs installを実行する</li>
+</ol>
+
+        </main>
+        <aside id="sidebar"></aside>
+        <script src="../../scripts/create_index.js"></script>
     </body>
 </html>
