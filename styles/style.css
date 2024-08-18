@@ -23,10 +23,10 @@ aside#sidebar {
     float: right;
     margin: 0;
     padding: 0;
+    text-align: right;
 }
 
-p.index {
-    text-align: right;
+a.index {
     color: #ffffff;
     text-decoration:none;
 }
