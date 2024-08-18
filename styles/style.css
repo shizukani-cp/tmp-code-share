@@ -4,7 +4,7 @@
 }
 
 ol {
-    padding-left:25px;
+    padding-left:1%;
 }
 
 img.title-image {
@@ -23,4 +23,10 @@ aside#sidebar {
     float: right;
     margin: 0;
     padding: 0;
+}
+
+p.index {
+    text-align: right;
+    color: #ffffff;
+    text-decoration:none;
 }
