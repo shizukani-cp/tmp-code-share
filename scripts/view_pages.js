@@ -15,6 +15,10 @@ const contents = [
     {
         title:"CLI環境に移ってきた",
         date:"20240925"
+    },
+    {
+        title:"自然言語処理に役立ちたい",
+        date:"20241113"
     }
 ];
 
