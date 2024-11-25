@@ -23,6 +23,10 @@ const contents = [
     {
         title:"汎用人工知能の実現方法",
         date:"20241117"
+    },
+    {
+        title:"静カニ VS vim",
+        date:"20241129"
     }
 ];
 
