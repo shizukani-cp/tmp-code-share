@@ -14,6 +14,7 @@ img.title-image {
 
 main {
   width: 70%;
+  padding: 10px;
   float: left;
 }
 
@@ -22,7 +23,6 @@ aside#sidebar {
   float: right;
   margin: 0;
   padding: 0;
-  text-align: right;
 }
 
 a.index {
