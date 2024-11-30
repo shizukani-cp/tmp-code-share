@@ -31,6 +31,10 @@ const contents = [
     {
         title:"ノーパソでつよつよLLM計画!",
         date:"20241130"
+    },
+    {
+        title:"友達の無茶",
+        date:"20241201"
     }
 ];
 
