@@ -27,6 +27,10 @@ const contents = [
     {
         title:"静カニ VS vim",
         date:"20241129"
+    },
+    {
+        title:"ノーパソでつよつよLLM計画!",
+        date:"20241130"
     }
 ];
 
