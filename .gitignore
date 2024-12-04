@@ -1,3 +1,4 @@
 template.*
 *.md
 *config*
+!helix_config.toml
