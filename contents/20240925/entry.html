@@ -56,12 +56,7 @@
       そのため、ファイラーに関しては、バニラでspace+fで表示できるもので代用することにしました。</p>
     <h3>gitのステータス</h3>
     <p>こちらに関しては、config.tomlを書いてどうにかしました。役に立つ人がいるかもしれないので、ここに載せておきます。</p>
-    <pre><code class="language-toml">[keys.normal]
-        C-g = [&quot;:new&quot;, &quot;:insert-output [ -d .git ] &amp;&amp; git status &gt; .git/git_status &amp;&amp;
-        git tree &gt;&gt; .git/git_status&quot;, &quot;:insert-output [ -d .git ] || echo '.git not found.' &gt;
-        .git/git_status&quot;, &quot;:open .git/git_status&quot;]
-        C-r = [&quot;:reload&quot;]
-      </code></pre>
+    <pre data-src="helix_config.toml"></pre>
     <p><strong>簡単な解説</strong><br />
       まず、C-gはCtrl+Gという意味。:newでは、バッファ(VS Codeのタブみたいな感じというイメージを勝手に抱いている)を作成。
       :insert-ouputは、ターミナルのコマンドを実行するもので、PowerShellからHelixを起動しても、Bashか何かのものが使われていそうだった。
@@ -76,12 +71,7 @@
     <h4>Rust</h4>
     <p>こちらはそこらへんに上がっている手順だけでどうにかなった(rustup component add rust-analyzerを打つだけ！)。<br />
       ちなみにlanguage.tomlは現時点でこれだけ。</p>
-    <pre><code class="language-toml">[[language]]
-        name = &quot;python&quot;
-
-        [[language]]
-        name = &quot;rust&quot;
-      </code></pre>
+    <pre data-src="helix_language.toml"></pre>
     <p>はい。至極シンプルです。</p>
 
   </main>
