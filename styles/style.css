@@ -19,6 +19,8 @@ main {
 }
 
 aside#sidebar {
+  position: fixed;
+  right: 0;
   width: 20%;
   float: right;
   margin: 0;
