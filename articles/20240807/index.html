@@ -4,18 +4,24 @@
 <head>
   <link rel="stylesheet" href="../../styles/basestyle.css">
   <link rel="stylesheet" href="../../styles/style.css">
+  
+  <link rel="stylesheet" href="../../styles/prism.css">
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="Word2vecのモデルをgithubにプッシュしようとしてできなかった時の解決法">
   <meta property="og:title" content="githubにpushしようとしたらできなかった話 | 静カニのブログ">
   <meta property="og:site_name" content="静カニのブログ">
   <meta property="og:type" content="article">
-  <meta property=" og:url" content="https://shizukani-cp.github.io/blog/articles/20240807">
+  <meta property="og:url" content="https://shizukani-cp.github.io/blog/articles/20240807">
   <meta property="og:image" content="https://shizukani-cp.github.io/blog/shizukani_title.png">
   <title>githubにpushしようとしたらできなかった話 | 静カニのブログ</title>
 </head>
 
 <body>
+  
+  <script src="../../scripts/prism.js"></script>
+  
   <header>
     <a href="../../">
       <img src="../../shizukani_title.png" alt="タイトル画像" class="title-image">
@@ -41,11 +47,11 @@
 それでは、どうすればよいかというと、先のgit reset ~ のうち、--hardオプションを--softオプションに変えてからコミットしなおすことです。<br />
 --softオプションは現在のカレントディレクトリの状態は変えないので、そのままコミットすればよいということです。  </p>
 <h2>結局必要なコマンド</h2>
-<p><code>shell
-git reset --soft origin/[ブランチ]
-git lfs track "[モデルのファイル名]"
+<pre><code class="language-shell">git reset --soft origin/[ブランチ]
+git lfs track &quot;[モデルのファイル名]&quot;
 git add .
-git commit -m "メッセージ"</code></p>
+git commit -m &quot;メッセージ&quot;
+</code></pre>
 <h2>あとがき</h2>
 <p>そもそもgithubにバイナリのファイルはアップロードするべきではないという考え方の方もいると思いますので、これはごく限られた人にしか役に立たないかもしれませんが、自分の備忘録的にこの記事を書きました。</p>
 <h2>2024/08/08追記</h2>
@@ -53,6 +59,10 @@ git commit -m "メッセージ"</code></p>
 1. <a href="https://git-lfs.com/">git-lfsのホームページ</a>を開く
 2. 画面にあるインストーラをダウンロード・実行する
 3. ターミナルでgit lfs installを実行する</p>
+    <button class="button"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20240816/'">次の記事</button>
+    <button class="button"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20240803/'">前の記事</button>
   </main>
   <aside id="sidebar"></aside>
   <script src="../../scripts/articles.json.js"></script>

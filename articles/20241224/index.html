@@ -4,18 +4,24 @@
 <head>
   <link rel="stylesheet" href="../../styles/basestyle.css">
   <link rel="stylesheet" href="../../styles/style.css">
+  
+  <link rel="stylesheet" href="../../styles/prism.css">
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="AIがリア充かどうか判定してくれるクソアプリの紹介記事です。">
   <meta property="og:title" content="AIがリア充かどうか判定してくれるアプリ | 静カニのブログ">
   <meta property="og:site_name" content="静カニのブログ">
   <meta property="og:type" content="article">
-  <meta property=" og:url" content="https://shizukani-cp.github.io/blog/articles/20241224">
+  <meta property="og:url" content="https://shizukani-cp.github.io/blog/articles/20241224">
   <meta property="og:image" content="https://shizukani-cp.github.io/blog/shizukani_title.png">
   <title>AIがリア充かどうか判定してくれるアプリ | 静カニのブログ</title>
 </head>
 
 <body>
+  
+  <script src="../../scripts/prism.js"></script>
+  
   <header>
     <a href="../../">
       <img src="../../shizukani_title.png" alt="タイトル画像" class="title-image">
@@ -37,9 +43,41 @@
 <p>LLMにLlamaを使っているのもあるのか、無能です。最後の判定の時に、リア充かどうかをきちんと答えてくれません。
 ChatGPTのAPIを叩くようにしてもよかったのですが、お金がかかるのがいやなので、実装しませんでした。まぁ、Llamaでも電気代が必要ですが。</p>
 <h2>ソースコード</h2>
-<p><code>python</code></p>
+<pre><code class="language-python">import requests
+
+history = [
+    {
+        &quot;role&quot;: &quot;system&quot;,
+        &quot;content&quot;: &quot;あなたはユーザーがリア充か判定してくれるボットです。質問をして、その回答をもとに決めてください。また、応答は質問のみにしてください。&quot;
+    },
+    {
+        &quot;role&quot;: &quot;system&quot;,
+        &quot;content&quot;: &quot;なお、「現実生活（リアル）が充実している」ということを「リア充」と呼ぶものとします。&quot;
+    }
+]
+
+def call_llm():
+    return requests.post(&quot;http://localhost:11434/v1/chat/completions&quot;, json={&quot;model&quot;: &quot;llama3.2&quot;, &quot;messages&quot;: history}).json()[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;]
+
+while True:
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;質問は何ですか？&quot;})
+    llm_responce = call_llm()
+    del history[-1]
+    history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: llm_responce})
+    print(&quot;LLM:&quot;, llm_responce)
+    user_responce = input(&quot;User: &quot;)
+    if user_responce.lower() in (&quot;exit&quot;, &quot;quit&quot;): break
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_responce})
+
+history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;私はリア充と考えられますか？&quot;})
+print(&quot;LLM:&quot;, call_llm())
+</code></pre>
 <h2>最後に</h2>
 <p>いかがでしょうか。まぁ、クソアプリなので、使ってもらえないと思いますが、何はともあれよいクソアプリライフを！</p>
+    <button class="button"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20240803/'">次の記事</button>
+    <button class="button"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241209/'">前の記事</button>
   </main>
   <aside id="sidebar"></aside>
   <script src="../../scripts/articles.json.js"></script>
