@@ -2,10 +2,12 @@ import { contents } from "./pages.js";
 
 const main = document.querySelector("main");
 
-const date_re = RegExp("(?<=contents/)(\d{8})/(?=entry.html)");
-const date = parseInt(date_re.exec(location.pathname));
+const date_re = new RegExp("(?<=/contents/)\d{8}(?=/entry.html)");
+const date = date_re.match(location.pathname)[0];
+console.log(date);
 
-const entry_index = contents.findIndex((e) => { return e.date == date; });
+const entry_index = contents.findIndex((e) => { return e.date === date; });
+console.log(contents, entry_index)
 
 if (entry_index !== 0) {
   const back_button = document.createElement("button");

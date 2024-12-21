@@ -1,6 +1,5 @@
-import { contents } from "./pages.js";
-
 function formatDate(date) {
+    date = date.toString()
     const year = parseInt(date.substring(0, 4), 10);
     const month = parseInt(date.substring(4, 6), 10);
     const day = parseInt(date.substring(6, 8), 10);
@@ -12,11 +11,11 @@ function formatDate(date) {
 
 window.onload = () => {
     const pages_element = document.getElementById("pages");
-    contents.reverse().forEach((content) => {
+    articles.reverse().forEach((content) => {
         const content_title_element = document.createElement("h3");
         const content_date_element = document.createElement("small");
         const content_link_element = document.createElement("a");
-        content_link_element.setAttribute("href", `contents/${content.date}/entry.html`);
+        content_link_element.setAttribute("href", `articles/${content.date}/entry.html`);
         content_title_element.appendChild(document.createTextNode(content.title));
         content_title_element.setAttribute("style", "font-size: 3rem;");
         content_link_element.appendChild(content_title_element);
