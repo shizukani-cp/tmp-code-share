@@ -11,11 +11,11 @@ function formatDate(date) {
 
 window.onload = () => {
     const pages_element = document.getElementById("pages");
-    articles.reverse().forEach((content) => {
+    Array.from(articles).reverse().forEach((content) => {
         const content_title_element = document.createElement("h3");
         const content_date_element = document.createElement("small");
         const content_link_element = document.createElement("a");
-        content_link_element.setAttribute("href", `articles/${content.date}/entry.html`);
+        content_link_element.setAttribute("href", `articles/${content.date}/`);
         content_title_element.appendChild(document.createTextNode(content.title));
         content_title_element.setAttribute("style", "font-size: 3rem;");
         content_link_element.appendChild(content_title_element);
