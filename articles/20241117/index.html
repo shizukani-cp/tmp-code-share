@@ -38,28 +38,28 @@
 そして、AGIが指示を受け取ったとき、リクエストを送り、その結果を返すというものです。リクエストは複数回送ることができ、リクエストを受け取ったサーバーサイドでも送ることができます。</p>
 <h2>規格的なもの</h2>
 <h3>通信方式</h3>
-<p>通信方式には、以下の要素があるといいかなというところです。
-- リクエスト
-  - メソッド
-  - 送り主
-  - プロンプト
-- レスポンス
-  - ステータスコード的な何か(HTTPを流用するのはきつそう)
-  - レスポンス本体(GETメソッドの場合)</p>
+<p>通信方式には、以下の要素があるといいかなというところです。<br />
+* リクエスト
+  * メソッド
+  * 送り主
+  * プロンプト
+* レスポンス
+  * ステータスコード的な何か(HTTPを流用するのはきつそう)
+  * レスポンス本体(GETメソッドの場合)</p>
 <h3>メソッド</h3>
-<p>メソッドは、今のところ以下のものがあれば十分かなと思います。
-- <code>GET</code>メソッド
-  - 弱いAIにリクエストを送るときのメソッド。レスポンス本体もある。
-- <code>POST</code>メソッド
-  - AgentのTool的なものに送るときのメソッド。レスポンスはステータスコードだけ。
-  - 個人的になんとなくPOSTメソッドじゃない感があるので、もっといい案があったら変えるかも。</p>
+<p>メソッドは、今のところ以下のものがあれば十分かなと思います。<br />
+* <code>GET</code>メソッド
+  * 弱いAIにリクエストを送るときのメソッド。レスポンス本体もある。
+* <code>POST</code>メソッド
+  * AgentのTool的なものに送るときのメソッド。レスポンスはステータスコードだけ。
+  * 個人的になんとなくPOSTメソッドじゃない感があるので、もっといい案があったら変えるかも。</p>
 <h2>名前どうしよう…</h2>
 <p>現在、これに対して名前が思いつかないという事態が発生しています!?<br />
 いい名前が思いついたら教えてください。</p>
-    <button class="button"
-      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241129/'">次の記事</button>
-    <button class="button"
+    <button class="button back-next"
       onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241113/'">前の記事</button>
+    <button class="button back-next"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241129/'">次の記事</button>
   </main>
   <aside id="sidebar"></aside>
   <script src="../../scripts/articles.json.js"></script>

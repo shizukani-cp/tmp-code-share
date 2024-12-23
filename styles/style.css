@@ -18,6 +18,10 @@ main {
   float: left;
 }
 
+.back-next {
+  width: 49%;
+}
+
 aside#sidebar {
   position: fixed;
   right: 0;

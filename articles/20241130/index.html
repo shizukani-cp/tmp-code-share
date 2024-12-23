@@ -40,100 +40,112 @@
 <h2>方法</h2>
 <p>…これで終わるわけにも行かないので、方法を書き散らしておきます。<br />
 まずは、Llamaを教師モデルとして自分のモデルを訓練するために、そのプログラムをPerplexityに書いてもらいます。
-そのプログラムがこちらです。(動作確認していないので、ご注意)
-```python:初回用
+そのプログラムがこちらです。(動作確認していないので、ご注意)</p>
+<pre><code class="language-python"># 初回用
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from transformers import MllamaForConditionalGeneration, AutoProcessor
-from logging import getLogger, Formatter, StreamHandler, DEBUG</p>
-<h1>ロガーの設定</h1>
-<p>logger = getLogger(<strong>name</strong>)
+from logging import getLogger, Formatter, StreamHandler, DEBUG
+
+# ロガーの設定
+logger = getLogger(__name__)
 logger.setLevel(DEBUG)
 handler = StreamHandler()
 handler.setLevel(DEBUG)
 formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
-logger.addHandler(handler)</p>
-<h1>WikipediaDatasetの定義</h1>
-<p>class WikipediaDataset(Dataset):
-    def <strong>init</strong>(self, file_path, max_length=512):
+logger.addHandler(handler)
+
+# WikipediaDatasetの定義
+class WikipediaDataset(Dataset):
+    def __init__(self, file_path, max_length=512):
         self.file_path = file_path
         self.max_length = max_length
-        self.data = self.load_annotations()</p>
-<pre><code>def load_annotations(self):
-    with open(self.file_path, 'r', encoding='utf-8') as f:
-        return [line.strip() for line in f if line.strip()]
+        self.data = self.load_annotations()
 
-def __len__(self):
-    return len(self.data)
+    def load_annotations(self):
+        with open(self.file_path, 'r', encoding='utf-8') as f:
+            return [line.strip() for line in f if line.strip()]
 
-def __getitem__(self, idx):
-    return self.data[idx][:self.max_length]
-</code></pre>
-<h1>SmallModelの定義</h1>
-<p>class SmallModel(nn.Module):
-    def <strong>init</strong>(self, input_size, hidden_size, output_size):
-        super(SmallModel, self).<strong>init</strong>()
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx][:self.max_length]
+
+# SmallModelの定義
+class SmallModel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(SmallModel, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, output_size)
-        self.relu = nn.ReLU()</p>
-<pre><code>def forward(self, x):
-    x = self.relu(self.fc1(x))
-    x = self.fc2(x)
-    return x
-</code></pre>
-<h1>ローカルのLlama 3.2モデルのロード</h1>
-<p>model_path = "path/to/your/local/llama3.2/model"
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
+
+# ローカルのLlama 3.2モデルのロード
+model_path = &quot;path/to/your/local/llama3.2/model&quot;
 teacher_model = MllamaForConditionalGeneration.from_pretrained(
     model_path,
     torch_dtype=torch.bfloat16,
-    device_map="auto"
+    device_map=&quot;auto&quot;
 )
-processor = AutoProcessor.from_pretrained(model_path)</p>
-<h1>SmallModelの初期化</h1>
-<p>input_size = 768  # 入力サイズ（実際のタスクに合わせて調整）
+processor = AutoProcessor.from_pretrained(model_path)
+
+# SmallModelの初期化
+input_size = 768  # 入力サイズ（実際のタスクに合わせて調整）
 hidden_size = 256
 output_size = teacher_model.config.vocab_size
-student_model = SmallModel(input_size, hidden_size, output_size).to("cuda")</p>
-<h1>データセットとDataLoaderの準備</h1>
-<p>dataset = WikipediaDataset("path/to/wiki.txt")
-dataloader = DataLoader(dataset, batch_size=2, shuffle=True)</p>
-<h1>損失関数とオプティマイザの設定</h1>
-<p>criterion = nn.KLDivLoss(reduction='batchmean')
-optimizer = optim.Adam(student_model.parameters())</p>
-<h1>学習ループ</h1>
-<p>num_epochs = 10
-temperature = 2.0</p>
-<p>for epoch in range(num_epochs):
+student_model = SmallModel(input_size, hidden_size, output_size).to(&quot;cuda&quot;)
+
+# データセットとDataLoaderの準備
+dataset = WikipediaDataset(&quot;path/to/wiki.txt&quot;)
+dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+
+# 損失関数とオプティマイザの設定
+criterion = nn.KLDivLoss(reduction='batchmean')
+optimizer = optim.Adam(student_model.parameters())
+
+# 学習ループ
+num_epochs = 10
+temperature = 2.0
+
+for epoch in range(num_epochs):
     for batch in dataloader:
         # 入力の処理
-        inputs = processor(batch, return_tensors="pt", padding=True, truncation=True).to("cuda")</p>
-<pre><code>    # 教師モデルの出力を取得
-    with torch.no_grad():
-        teacher_outputs = teacher_model(**inputs).logits
+        inputs = processor(batch, return_tensors=&quot;pt&quot;, padding=True, truncation=True).to(&quot;cuda&quot;)
 
-    # 生徒モデルの出力を取得
-    student_outputs = student_model(inputs.input_ids)
+        # 教師モデルの出力を取得
+        with torch.no_grad():
+            teacher_outputs = teacher_model(**inputs).logits
 
-    # 知識蒸留損失の計算
-    loss = criterion(
-        nn.functional.log_softmax(student_outputs / temperature, dim=-1),
-        nn.functional.softmax(teacher_outputs / temperature, dim=-1)
-    )
+        # 生徒モデルの出力を取得
+        student_outputs = student_model(inputs.input_ids)
 
-    # 逆伝播と最適化
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+        # 知識蒸留損失の計算
+        loss = criterion(
+            nn.functional.log_softmax(student_outputs / temperature, dim=-1),
+            nn.functional.softmax(teacher_outputs / temperature, dim=-1)
+        )
 
-logger.debug(f"Epoch {epoch+1}/{num_epochs}, Loss: {loss.item()}")
+        # 逆伝播と最適化
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    logger.debug(f&quot;Epoch {epoch+1}/{num_epochs}, Loss: {loss.item()}&quot;)
+
+# モデルの保存
+torch.save(student_model.state_dict(), &quot;small_model.pth&quot;)
+
+logger.debug(&quot;モデルが保存されました。&quot;)                                                                                                                                           )
 </code></pre>
-<h1>モデルの保存</h1>
-<p>torch.save(student_model.state_dict(), "small_model.pth")</p>
-<p>logger.debug("モデルが保存されました。")                                                                                                                                           )</p>
-<pre><code>```python:2回目以降用
+<pre><code class="language-python"># 2回目以降用
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -276,10 +288,10 @@ StackOverFlowのダンプは、archive.orgの中で7z形式で圧縮されたう
 これで、CC BY-SAとCC BY-NC-SAの組み合わせだったら、死んでいたところでした。  </p>
 <h2>今後</h2>
 <p>とりあえず開発途中に書いた記事なので、今後もどんどん更新を入れていきます。</p>
-    <button class="button"
-      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241201/'">次の記事</button>
-    <button class="button"
+    <button class="button back-next"
       onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241129/'">前の記事</button>
+    <button class="button back-next"
+      onclick="location.href = 'https://shizukani-cp.github.io/blog/articles/20241201/'">次の記事</button>
   </main>
   <aside id="sidebar"></aside>
   <script src="../../scripts/articles.json.js"></script>
