@@ -27,7 +27,7 @@ aside#sidebar {
   padding: 0;
   display: flex;
   flex-direction: column;
-  overflow-x: scroll;
+  overflow: scroll;
 }
 
 a.index {
