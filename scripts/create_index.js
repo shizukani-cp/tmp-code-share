@@ -6,7 +6,7 @@ const LEVEL_AND_SIZE = {
     5:10,
     6:8
 }
-const SIDEBAR_ELEMENT = document.getElementById("sidebar");
+const SIDEBAR_ELEMENT = document.getElementById("index");
 
 for (let element of document.querySelectorAll("h1,h2,h3,h4,h5,h6")) {
     const level = element.tagName[1];
