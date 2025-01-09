@@ -13,9 +13,14 @@ img.title-image {
 }
 
 main {
+  margin-bottom: 45.6px;
   width: 70%;
   padding: 10px;
   float: left;
+}
+
+div#pages {
+  margin-bottom: 45.6px;
 }
 
 .back-next {
