@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import os, sys, argparse, json
+import os, sys, argparse, json, base64
 import requests
 
 load_dotenv()
@@ -43,19 +43,20 @@ def gen_create_dir_handler(client):
 
 def gen_create_file_handler(client):
     def out(args):
-        responce = client.post(args.path, args.contents.read())
+        responce = client.post(args.path,
+                               base64.b64encode(args.contents.read().encode()))
         if args.prntrspnc:
             print(responce)
     return out
 
 def gen_get_handler(client):
     def out(args):
-        print(client.get(args.path))
+        print(base64.b64decode(client.get(args.path)).decode(ENCODE))
     return out
 
 def gen_put_handler(client):
     def out(args):
-        responce = client.put(args.path, args.contents.read())
+        responce = client.put(args.path, base64.b64encode(args.contents.read().encode()))
         if args.prntrspnc:
             print(responce)
     return out
